@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="_レイヤー_2" data-name="レイヤー 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 432 92">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #97aad4;
+        stroke-width: 0px;
+      }
+
+      .cls-2 {
+        fill: #fff;
+        font-family: YuGothic-Bold, 'Yu Gothic';
+        font-size: 31.4px;
+        font-weight: 700;
+      }
+    </style>
+  </defs>
+  <g id="_レイヤー_1-2" data-name="レイヤー 1">
+    <g>
+      <rect class="cls-1" y="0" width="432" height="92" rx="46" ry="46"/>
+      <text class="cls-2" transform="translate(171.35 56.71)"><tspan x="0" y="0">始める</tspan></text>
+    </g>
+  </g>
+</svg>
