@@ -1,9 +1,9 @@
 module GameTitle
 
     # ゲームの画像を読み込み
-    @image1 = Image.load("Image_home/png/dec_hige.png")
-    @image2 = Image.load("Image_home/png/dec_logo.png")
-    @image3 = Image.load("Image_home/png/button_start.png")
+    @image1 = Image.load("Image_home/dec_hige.png")
+    @image2 = Image.load("Image_home/dec_logo.png")
+    @image3 = Image.load("Image_home/button_start.png")
 
     module_function
     def exec
