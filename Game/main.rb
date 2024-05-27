@@ -19,6 +19,9 @@ $scene = 1
 Window.width  = 1920
 Window.height = 1080
 
+# フルスクリーンに設定
+Window.full_screen = true
+
 # 画面の背景色を設定（R:255,G:255,B:255）
 Window.bgcolor = C_WHITE
 
@@ -44,6 +47,11 @@ Window.loop do
     else
         # errer
         Window.draw_font(400, 500, "[errer] 無効なシーンです。", font,color:[0,0,0])
+    end
+
+    # ESCキーでゲームを終了
+    if Input.key_push?(K_ESCAPE)
+        Window.close
     end
 
 end
