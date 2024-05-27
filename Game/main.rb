@@ -1,5 +1,19 @@
 require "dxruby"
-require "scene_switcher"
+
+# シーンごとのrubyファイルを読み込み
+require_relative "title"
+require_relative "menu"
+require_relative "game"
+require_relative "result"
+
+# モジュールを宣言
+$scene_title = GameTitle
+$scene_menu = GameMenu
+$scene_game = GameMain
+$scene_result = GameResult
+
+# グローバル変数定義
+$scene = 1
 
 # 画面サイズ指定(1920×1080)
 Window.width  = 1920
@@ -11,23 +25,27 @@ Window.bgcolor = C_WHITE
 # ゲームのタイトルを設定
 Window.caption = "おじタイピング"
 
-# フォントの設定
-font = Font.new(24)
+# 書式設定
+font = Font.new(32)
 
+# 描写する内容を記述
 Window.loop do
-    Window.draw_font(960, 540, "1:tittle,2:menu,3:game,4:result", font,color:[0,0,0] )
-    if Input.key_push?(K_1)
-        switch_to "tittle.rb"
+
+    # 画面遷移設定
+    case $scene
+    when 1 then # タイトルシーン
+        $scene_title.exec()
+    when 2 then # メニューシーン
+        $scene_menu.exec()
+    when 3 then # ゲームシーン
+        $scene_game.exec()
+    when 4 then # 結果シーン
+        $scene_result.exec()
+    else
+        # errer
+        Window.draw_font(400, 500, "[errer] 無効なシーンです。", font,color:[0,0,0])
     end
-    if Input.key_push?(K_2)
-        switch_to "menu.rb"
-    end
-    if Input.key_push?(K_3)
-        switch_to "game.rb"
-    end
-    if Input.key_push?(K_4)
-        switch_to "result.rb"
-    end
+
 end
 
 # 参考サイト

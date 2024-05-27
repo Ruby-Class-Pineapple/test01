@@ -1,19 +1,18 @@
-require "dxruby"
-require "scene_switcher"
+module GameMain
 
-# 画面サイズ指定(1920×1080)
-Window.width  = 1920
-Window.height = 1080
+  # 書式設定
+  @font = Font.new(32)
 
-# 画面の背景色を設定（R:255,G:255,B:255）
-Window.bgcolor = C_WHITE
+  module_function
+  def exec
 
-# ゲームのタイトルを設定
-Window.caption = "おじタイピング/ゲーム"
+    # 文字の出力
+    Window.draw_font(400, 500, "ゲームシーンです。", @font,color:[0,0,0])
 
-Window.loop do
-    # スペースキーを押したらmain.rbに画面を切り替える
+    # スペースキーで結果画面に遷移
     if Input.key_push?(K_SPACE)
-        switch_to "main.rb"
-      end
+      $scene = 4
+    end
+
+  end
 end
