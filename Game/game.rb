@@ -13,10 +13,17 @@ module GameMain
   @time_bars = (1..10).map { |i| Image.load("Image_game/time_bar_#{i}.png") }
   @timer_started = false # カウントダウン開始フラグ
 
-  # キーボード
-  @key_a_1 = Image.load("Image_game/key_a_1.png") # a
-  @key_a_2 = Image.load("Image_game/key_a_2.png") # a
-  @key_a_3 = Image.load("Image_game/key_a_3.png") # a
+  # キーボード座標設定
+  @key_xy = {}
+
+  # a ~ zの画像ファイル読み込み
+  @key_data = ('a'..'z').map.with_index do |char, index|{ 
+    image_up: Image.load("Image_game/key_#{char}_1.png"),
+    image_down_suc: Image.load("Image_game/key_#{char}_2.png"),
+    image_down_err: Image.load("Image_game/key_#{char}_3.png"),
+    xy = @key_xy[index] # @key_xy から座標を取得
+  }
+  end
 
   module_function
 
@@ -79,6 +86,23 @@ module GameMain
 
   end
 
+  # キーボード実装
+  def kye_board
+
+    # テスト用目印
+    Window.draw(22, 610, @key_maker)
+
+    ('a'..'z').each_with_index do |char, index|
+      key_info = @key_data[index]
+      if Input.key_down?(eval("K_#{char.upcase}"))
+        Window.draw(key_info[:x], key_info[:y], key_info[:image_down_suc])
+      else
+        Window.draw(key_info[:x], key_info[:y], key_info[:image_up])
+      end
+    end
+
+  end
+
   def exec
 
     Window.draw(0, 90, @back_blue)
@@ -92,14 +116,7 @@ module GameMain
 
     time_bar() # タイムバーの実行
 
-    Window.draw(22, 610, @key_maker)
-
-    if Input.key_down?(K_A)
-      Window.draw(0, 500, @key_a_2)
-    else
-      Window.draw(0, 500, @key_a_1)
-    end
-   
+    kye_board() # キーボードの処理
 
     # スペースキーで結果画面に遷移
     if Input.key_push?(K_SPACE)
