@@ -13,15 +13,23 @@ module GameMain
   @time_bars = (1..10).map { |i| Image.load("Image_game/time_bar_#{i}.png") }
   @timer_started = false # カウントダウン開始フラグ
 
-  # キーボード座標設定
-  @key_xy = {}
+  # キーボードの座標を設定
+  @key_xy = {
+  'a' => [210, 830],   'b' => [870, 940],  'c' => [580, 940],  'd' => [500, 830],
+  'e' => [440, 720],   'f' => [645, 830],  'g' => [790, 830],  'h' => [935, 830],
+  'i' => [1165, 720],   'j' => [1080, 830],  'k' => [1225, 830], 'l' => [1370, 830],
+  'm' => [1160, 940],  'n' => [1015, 940], 'o' => [1310, 720], 'p' => [1455, 720],
+  'q' => [150, 720],  'r' => [585, 720], 's' => [355, 830], 't' => [730, 720],
+  'u' => [1020, 720],  'v' => [725, 940], 'w' => [295, 720], 'x' => [435, 940],
+  'y' => [875, 720],  'z' => [290, 940]
+  }
 
   # a ~ zの画像ファイル読み込み
-  @key_data = ('a'..'z').map.with_index do |char, index|{ 
+  @key_data = ('a'..'z').map.with_index do |char|{ 
     image_up: Image.load("Image_game/key_#{char}_1.png"),
     image_down_suc: Image.load("Image_game/key_#{char}_2.png"),
     image_down_err: Image.load("Image_game/key_#{char}_3.png"),
-    xy = @key_xy[index] # @key_xy から座標を取得
+    xy: @key_xy[char] # @key_xy から座標を取得
   }
   end
 
@@ -95,9 +103,9 @@ module GameMain
     ('a'..'z').each_with_index do |char, index|
       key_info = @key_data[index]
       if Input.key_down?(eval("K_#{char.upcase}"))
-        Window.draw(key_info[:x], key_info[:y], key_info[:image_down_suc])
+        Window.draw(key_info[:xy][0], key_info[:xy][1], key_info[:image_down_suc])
       else
-        Window.draw(key_info[:x], key_info[:y], key_info[:image_up])
+        Window.draw(key_info[:xy][0], key_info[:xy][1], key_info[:image_up])
       end
     end
 
