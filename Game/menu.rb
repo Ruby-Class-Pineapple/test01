@@ -52,7 +52,6 @@ module GameMenu
     button(@image2,581,300,3)
 
     Window.draw(581, 450, @image3)
-    button(@image3,581,450,3)
     Window.draw(581, 600, @image4)
 
     #ひげマーク
