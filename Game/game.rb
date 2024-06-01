@@ -5,6 +5,8 @@ module GameMain
   @dec_bar = Image.load("Image_game/dec_bar.png") # バー
   @button_end = Image.load("Image_menu/button_end.png") # 終了ボタン
 
+  @part = 1 
+
   # 開始前
   @start_flg = false
   @load_hide = false
@@ -14,16 +16,29 @@ module GameMain
 
   # 開始カウントダウン 
   @count = 4
-  @start_time = 0
+  @count_first_time = 0
   @start_font = Font.new(100) # 書式設定
-  @start_count = false # カウントダウン実行フラグ
+  @count_started = false # カウントダウン実行フラグ
   @timer_flg = false # ゲームスタートフラグ
 
   # タイムバー
+  @first_time = 0
   @time = 61 # タイマー用
   @time_font = Font.new(25) # 書式設定
   @time_bars = (1..10).map { |i| Image.load("Image_game/time_bar_#{i}.png") }
   @timer_started = false # カウントダウン開始フラグ
+
+  # テキストファイルの読み込み
+  @content = File.readlines("Type-sample/sample#{$type_oji}.txt")
+  @content_num = 0
+  @appearance = 0
+
+  # ゲーム画面
+  @dec_icon_ojis = (1..3).map { |i| Image.load("Image_game/dec_icon_oji#{i}.png") }
+  @dec_message_box = Image.load("Image_game/dec_message_box.png")
+  @prob_font1 = Font.new(35)
+  @prob_font2 = Font.new(20)
+  @prob_font3 = Font.new(18)
 
   # ダミーキーボード
   @back_key = Image.new(1920, 500, [220, 220, 220]) # キーボード背景
@@ -60,6 +75,15 @@ module GameMain
 
   module_function
 
+  # リセット処理
+  def reset
+    @count_started = false
+    @timer_started = false
+    @content_num = 0
+    @timer_flg = false
+    @part = 1
+  end
+
   # ボタン実装
   def button(button_x,button_y)
 
@@ -79,6 +103,7 @@ module GameMain
 
       # マウスクリックの検出
       if Input.mouse_push?(M_LBUTTON)
+        reset()
         $scene = 1
       end
 
@@ -97,7 +122,16 @@ module GameMain
       @timer_started = true
     end
 
-    Window.draw_font(30, 105, "< 田中文雄", @time_font,color:[255,255,255])
+    # 選択別表示
+    case $type_oji
+    when 1 then
+      Window.draw_font(30, 105, "< 田中文雄", @time_font,color:[255,255,255])
+    when 2 then
+      Window.draw_font(30, 105, "< 佐藤信之", @time_font,color:[255,255,255])
+    when 2 then
+      Window.draw_font(30, 105, "< 山下克之", @time_font,color:[255,255,255])
+    end
+
     Window.draw_font(1200, 105, "残り時間", @time_font,color:[255,255,255])
 
     # 経過時間を計算
@@ -118,6 +152,7 @@ module GameMain
 
     # 経過時間が@timeを超えたらループを終了
     if elapsed_time >= @time
+      reset() # リセット
       $scene = 4
     end
 
@@ -128,18 +163,21 @@ module GameMain
 
     @load_frame += 1
 
-    Window.draw_font(700, 320, "おじさんから新着メッセージが届いているヨ！", @load_font2, color:[255,255,255])
+    Window.draw_font(700, 305, "おじさんから新着メッセージが届いているヨ！", @load_font2, color:[255,255,255])
 
+    # 点滅表示用
     if @load_frame % 45 == 0
       @load_hide = !@load_hide
+      @load_frame = 0
     end
 
     if @load_hide
-      Window.draw_font(650, 370, "Enter を押してスタート", @load_font1, color:[255,255,255])
+      Window.draw_font(650, 360, "Enter を押してスタート", @load_font1, color:[255,255,255])
     end
 
+    # Enterを押したらスタート
     if Input.key_push?(K_RETURN)
-      @start_flg = true
+      @part = 2
     end
 
   end
@@ -148,17 +186,18 @@ module GameMain
   def start
 
     # カウントダウン開始
-    unless @start_count
-      @start_time = Time.now
-      @start_count = true
+    unless @count_started
+      @count_first_time = Time.now
+      @count_started = true
     end
 
     # 経過時間を計算
-    elapsed_time = Time.now - @start_time
+    elapsed_time = Time.now - @count_first_time
 
-    # 経過時間が@timeを超えたらループを終了
+    # 経過時間が@countを超えたらループを終了
     if elapsed_time >= @count
       @timer_flg = true
+      @part = 3
     else
 
       # カウントダウンを表示
@@ -171,6 +210,22 @@ module GameMain
 
   end
 
+  # ゲームメイン関数 28 16
+  def game_main
+    Window.draw(260, 280, @dec_message_box)
+    Window.draw(90, 260, @dec_icon_ojis[$type_oji-1])
+    Window.draw_font(1700,500, "#{@content[@content_num].length}文字",@prob_font3,color:[100,100,100])
+
+    # 文字の出力
+    @appearance = 960 - @content[@content_num].length * 14
+    Window.draw_font(@appearance, 370,@content[@content_num], @prob_font1,color:[50,50,50])
+    Window.draw_font(600, 420,"kyoumogennkiniikou1nanikakomattakotoattaraittene", @prob_font1,color:[180,180,180])
+
+    # エンターで次の文章へ変更
+    if Input.key_push?(K_RETURN)
+      @content_num += 1
+    end
+  end
 
   # キーボード実装
   def kye_board
@@ -202,7 +257,7 @@ module GameMain
   end
 
   def exec
-
+    
     Window.draw(0, 90, @back_blue)
 
     # 終了ボタン
@@ -212,14 +267,14 @@ module GameMain
     Window.draw_scale(-180, -5, @dec_logo,0.4,0.4)
     Window.draw(-12,65,@dec_bar)
 
-    # 開始前画面
-    unless @start_flg
+    # パート切り替え
+    case @part
+    when 1 then # 開始前画面
       load()
-    end
-
-    # 開始前カウントダウン
-    unless @timer_flg || !@start_flg
+    when 2 then # 開始前カウントダウン
       start()
+    when 3 then # ゲーム画面
+      game_main()
     end
 
     time_bar() # タイムバーの実行
