@@ -1,5 +1,11 @@
 require "dxruby"
 
+# グローバル変数定義
+$scene = 1
+
+# ゲーム用グローバル変数
+$type_oji = 1
+
 # シーンごとのrubyファイルを読み込み
 require_relative "title"
 require_relative "menu"
@@ -12,15 +18,12 @@ $scene_menu = GameMenu
 $scene_game = GameMain
 $scene_result = GameResult
 
-# グローバル変数定義
-$scene = 1
-
 # 画面サイズ指定(1920×1080)
 Window.width  = 1920
 Window.height = 1080
 
 # フルスクリーンに設定
-Window.full_screen = true
+# Window.full_screen = true
 
 # 画面の背景色を設定（R:255,G:255,B:255）
 Window.bgcolor = C_WHITE
