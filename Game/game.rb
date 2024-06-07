@@ -3,9 +3,9 @@ module GameMain
   @dec_logo = Image.load("Image_home/dec_logo.png")  # 終了ボタン
   @back_blue = Image.new(1920, 500, [151, 170, 212]) # 背景
   @dec_bar = Image.load("Image_game/dec_bar.png") # バー
-  @button_end = Image.load("Image_menu/button_end.png") # 終了ボタン
+  @button_gameend = Image.load("Image_menu/button_end.png") # 終了ボタン
 
-  @part = 1 
+  @part = 1 # ゲーム内シーン
 
   # 開始前
   @start_flg = false
@@ -84,34 +84,7 @@ module GameMain
     @part = 1
   end
 
-  # ボタン実装
-  def button(button_x,button_y)
-
-    # 終了ボタンの座標とサイズ
-    button_width = @button_end.width
-    button_height = @button_end.height
-
-    # マウスの位置を取得
-    mouse_x = Input.mouse_pos_x
-    mouse_y = Input.mouse_pos_y
-
-    # ボタンの上にカーソルがあるとき
-    if mouse_x >= button_x && mouse_x <= button_x + button_width &&
-      mouse_y >= button_y && mouse_y <= button_y + button_height
-
-      Input.set_cursor(IDC_HAND) # マウスカーソルを手の形状に変更
-
-      # マウスクリックの検出
-      if Input.mouse_push?(M_LBUTTON)
-        reset()
-        $scene = 1
-      end
-
-    else
-      Input.set_cursor(IDC_ARROW) # デフォルトのマウスカーソルを使用
-    end
-
-  end
+  
 
   # タイムバー
   def time_bar
@@ -217,7 +190,7 @@ module GameMain
     Window.draw_font(1700,500, "#{@content[@content_num].length}文字",@prob_font3,color:[100,100,100])
 
     # 文字の出力
-    @appearance = 960 - @content[@content_num].length * 14
+    @appearance = 960 - @content[@content_num].length * 14 # 文字を中央に寄せる
     Window.draw_font(@appearance, 370,@content[@content_num], @prob_font1,color:[50,50,50])
     Window.draw_font(600, 420,"kyoumogennkiniikou1nanikakomattakotoattaraittene", @prob_font1,color:[180,180,180])
 
@@ -261,8 +234,8 @@ module GameMain
     Window.draw(0, 90, @back_blue)
 
     # 終了ボタン
-    Window.draw(1725, 3, @button_end)
-    button(1725,3)
+    Window.draw(1725, 3, @button_gameend)
+    $button_end.button(@button_gameend,1725,3,1)
 
     Window.draw_scale(-180, -5, @dec_logo,0.4,0.4)
     Window.draw(-12,65,@dec_bar)
@@ -289,3 +262,4 @@ module GameMain
   end
 
 end
+
