@@ -20,7 +20,7 @@ Window.width  = 1920
 Window.height = 1080
 
 # フルスクリーンに設定
-Window.full_screen = true
+# Window.full_screen = true
 
 # 画面の背景色を設定（R:255,G:255,B:255）
 Window.bgcolor = C_WHITE
