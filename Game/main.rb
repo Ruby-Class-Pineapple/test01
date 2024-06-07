@@ -12,11 +12,46 @@ require_relative "menu"
 require_relative "game"
 require_relative "result"
 
+# ボタンセットモジュール
+module Buton_set
+
+    module_function
+    # ボタン実装
+    def button(image,button_x,button_y,&action)
+
+        # 終了ボタンの座標とサイズ
+        button_width = image.width
+        button_height = image.height
+
+        # マウスの位置を取得
+        mouse_x = Input.mouse_pos_x
+        mouse_y = Input.mouse_pos_y
+
+        # ボタンの上にカーソルがあるとき
+        if mouse_x >= button_x && mouse_x <= button_x + button_width &&
+        mouse_y >= button_y && mouse_y <= button_y + button_height
+
+        Input.set_cursor(IDC_HAND) # マウスカーソルを手の形状に変更
+
+        # マウスクリックの検出
+        if Input.mouse_push?(M_LBUTTON)
+            action.call
+        end
+
+        true
+
+        else
+        false
+        end
+    end
+end
+
 # モジュールを宣言
 $scene_title = GameTitle
 $scene_menu = GameMenu
 $scene_game = GameMain
 $scene_result = GameResult
+$button_set = Buton_set
 
 # 画面サイズ指定(1920×1080)
 Window.width  = 1920
