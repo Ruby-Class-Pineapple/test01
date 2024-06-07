@@ -6,40 +6,6 @@ $scene = 1
 # ゲーム用グローバル変数
 $type_oji = 1
 
-# ボタンモジュール
-module ButtonSet
-
-    module_function
-    
-    # ボタン実装
-    def button(button_img,button_x,button_y,next_scene)
-  
-        # 終了ボタンの座標とサイズ
-        button_width = button_img.width
-        button_height = button_img.height
-  
-        # マウスの位置を取得
-        mouse_x = Input.mouse_pos_x
-        mouse_y = Input.mouse_pos_y
-  
-        # ボタンの上にカーソルがあるとき
-        if mouse_x >= button_x && mouse_x <= button_x + button_width &&
-            mouse_y >= button_y && mouse_y <= button_y + button_height
-  
-            Input.set_cursor(IDC_HAND) # マウスカーソルを手の形状に変更
-  
-            # マウスクリックの検出
-            if Input.mouse_push?(M_LBUTTON)
-                $scene = next_scene
-            end
-  
-        else
-            Input.set_cursor(IDC_ARROW) # デフォルトのマウスカーソルを使用
-        end
-    end
-end
-
-
 # シーンごとのrubyファイルを読み込み
 require_relative "title"
 require_relative "menu"
@@ -51,7 +17,6 @@ $scene_title = GameTitle
 $scene_menu = GameMenu
 $scene_game = GameMain
 $scene_result = GameResult
-$button_end = ButtonSet
 
 # 画面サイズ指定(1920×1080)
 Window.width  = 1920
@@ -68,7 +33,6 @@ Window.caption = "おじタイピング"
 
 # 書式設定
 font = Font.new(32)
-
 
 # 描写する内容を記述
 Window.loop do
