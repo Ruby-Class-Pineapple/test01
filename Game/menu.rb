@@ -15,7 +15,7 @@ module GameMenu
   module_function
 
   # ボタン実装
-  def button(image,button_x,button_y,next_scene)
+  def button(image,button_x,button_y,&action)
 
     # 終了ボタンの座標とサイズ
     button_width = image.width
@@ -33,26 +33,38 @@ module GameMenu
 
       # マウスクリックの検出
       if Input.mouse_push?(M_LBUTTON)
-        $scene = next_scene
+        action.call
       end
 
+      true
+
     else
-      Input.set_cursor(IDC_ARROW) # デフォルトのマウスカーソルを使用
+      false
     end
 
   end
 
   def exec
 
+    cursor_changed = false
+
     #やめるボタン
     Window.draw(1725, 3, @image1)
+    cursor_changed = true if button(@image1,1725,3){$scene = 1}
 
     #おじせんたくボタン
+    #レベル１
     Window.draw(581, 300, @image2)
-    button(@image2,581,300,3)
+    cursor_changed = true if button(@image2,581,300){$type_oji = 1; $scene = 3}
 
+    #レベル２
     Window.draw(581, 450, @image3)
+    cursor_changed = true if button(@image3,581,450){$type_oji = 2; $scene = 3}
+
+    #レベル３
     Window.draw(581, 600, @image4)
+    cursor_changed = true if button(@image4,581,600){$type_oji = 3; $scene = 3}
+  
 
     #ひげマーク
     Window.draw_scale(887.5, 200, @image5,0.6,0.6)
@@ -68,6 +80,9 @@ module GameMenu
     if Input.key_push?(K_SPACE)
       $scene = 3
     end
+
+    # カーソルをデフォルトに戻す
+    Input.set_cursor(IDC_ARROW) unless cursor_changed
     
   end
 
