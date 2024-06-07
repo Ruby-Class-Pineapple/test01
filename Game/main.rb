@@ -1,5 +1,11 @@
 require "dxruby"
 
+# グローバル変数定義
+$scene = 1
+
+# ゲーム用グローバル変数
+$type_oji = 1
+
 # シーンごとのrubyファイルを読み込み
 require_relative "title"
 require_relative "menu"
@@ -11,9 +17,6 @@ $scene_title = GameTitle
 $scene_menu = GameMenu
 $scene_game = GameMain
 $scene_result = GameResult
-
-# グローバル変数定義
-$scene = 1
 
 # 画面サイズ指定(1920×1080)
 Window.width  = 1920
