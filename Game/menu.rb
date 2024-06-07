@@ -46,7 +46,6 @@ module GameMenu
 
     #やめるボタン
     Window.draw(1725, 3, @image1)
-    button(1725,3)
 
     #おじせんたくボタン
     Window.draw(581, 300, @image2)
