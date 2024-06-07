@@ -84,8 +84,6 @@ module GameMain
     @part = 1
   end
 
-  
-
   # タイムバー
   def time_bar
 
@@ -230,12 +228,14 @@ module GameMain
   end
 
   def exec
+
+    cursor_changed = false
     
     Window.draw(0, 90, @back_blue)
 
     # 終了ボタン
     Window.draw(1725, 3, @button_gameend)
-    $button_end.button(@button_gameend,1725,3,1)
+    cursor_changed = true if $button_set.button(@button_gameend,1725,3){reset(); $scene = 1}
 
     Window.draw_scale(-180, -5, @dec_logo,0.4,0.4)
     Window.draw(-12,65,@dec_bar)
@@ -258,6 +258,9 @@ module GameMain
     if Input.key_push?(K_SPACE)
       $scene = 4
     end
+
+    # カーソルをデフォルトに戻す
+    Input.set_cursor(IDC_ARROW) unless cursor_changed
 
   end
 
