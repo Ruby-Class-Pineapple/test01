@@ -101,7 +101,7 @@ module GameMain
       Window.draw_font(30, 105, "< 田中文雄", @time_font,color:[255,255,255])
     when 2 then
       Window.draw_font(30, 105, "< 佐藤信之", @time_font,color:[255,255,255])
-    when 2 then
+    when 3 then
       Window.draw_font(30, 105, "< 山下克之", @time_font,color:[255,255,255])
     end
 
