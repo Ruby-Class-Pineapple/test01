@@ -1,4 +1,5 @@
 require "dxruby"
+require "csv"
 
 # グローバル変数定義
 $scene = 1
