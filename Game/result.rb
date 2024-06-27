@@ -6,7 +6,7 @@ module GameResult
   @image_oji1 = Image.load("Image_result/dec_result_oji1.png")
   @image_oji2 = Image.load("Image_result/dec_result_oji2.png")
   @image_oji3 = Image.load("Image_result/dec_result_oji3.png")
-  @image_hige = Image.load("Game/Image_home/dec_hige.png")
+  @image_hige = Image.load("Image_home/dec_hige.png")
 
   # 書式設定
   @font = Font.new(32)
